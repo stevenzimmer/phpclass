@@ -22,8 +22,8 @@
         $error_message = 'Years must be a valid whole number.';
     } else if ( $years <= 0 ) {
         $error_message = 'Years must be greater than zero.';
-    } else if ( $years > 30 ) {
-        $error_message = 'Years must be less than 31.';
+    } else if ( $years >= 15 ) {
+        $error_message = 'Years must be less than or equal to 15.';
     // set error message to empty string if no invalid entries
     } else {
         $error_message = ''; 
@@ -45,6 +45,8 @@
     $investment_f = '$'.number_format($investment, 2);
     $yearly_rate_f = $interest_rate.'%';
     $future_value_f = '$'.number_format($future_value, 2);
+
+    $date = date('Y-m-d');
 ?>
 <!DOCTYPE html>
 <html>
@@ -67,6 +69,8 @@
 
         <label>Future Value:</label>
         <span><?php echo $future_value_f; ?></span><br>
+
+        <span><?php echo "This calculation was done on ".$date; ?></span><br>
     </main>
 </body>
 </html>
