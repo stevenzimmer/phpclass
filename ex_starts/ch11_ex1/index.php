@@ -6,9 +6,9 @@ if ($task_list === NULL) {
     $task_list = array();
     
     // add some hard-coded starting values to make testing easier
-    $task_list[] = 'Write chapter';
-    $task_list[] = 'Edit chapter';
-    $task_list[] = 'Proofread chapter';
+    $task_list[] = 'write chapter';
+    $task_list[] = 'edit chapter';
+    $task_list[] = 'proofread chapter';
 }
 
 //get action variable from POST
@@ -24,7 +24,7 @@ switch( $action ) {
         if (empty($new_task)) {
             $errors[] = 'The new task cannot be empty.';
         } else {
-            $task_list[] = $new_task;
+           array_push($task_list, $new_task); //step 6
         }
         break;
     case 'Delete Task':
@@ -36,18 +36,21 @@ switch( $action ) {
             $task_list = array_values($task_list);
         }
         break;
+    case 'Sort Tasks':
+        natcasesort($task_list, );
+        break;
+
 /*
-    case 'Modify Task':
-    
+    case 'modify task':
+
     case 'Save Changes':
     
     case 'Cancel Changes':
     
     case 'Promote Task':
-        
-    case 'Sort Tasks':
     
-*/
+*/        
+
 }
 
 include('task_list.php');

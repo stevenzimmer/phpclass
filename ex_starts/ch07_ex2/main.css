@@ -34,3 +34,10 @@ br {
     color: red;
     font-weight: bold;
 }
+
+#check {
+    width: 2em;
+    margin-bottom: .5em;
+    margin-left: 16em;
+    float: none;
+}

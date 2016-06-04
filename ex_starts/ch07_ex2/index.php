@@ -21,19 +21,36 @@
 
         <div id="data">
             <label>Investment Amount:</label>
-            <input type="text" name="investment"
-                   value="<?php echo $investment; ?>"/><br>
+        
+            <select name="investment">
+                <?php 
+                for( $i = 10000; $i <= 50000; $i+=5000 ) {
+                    echo "<option value=".$i.">".$i."</option>";
+                 
+                }
+                ?>
+               
+            </select><br>
 
             <label>Yearly Interest Rate:</label>
-            <input type="text" name="interest_rate"
-                   value="<?php echo $interest_rate; ?>"/><br>
+            <select name="interest_rate">
+                <?php 
+                for( $y = 3; $y <= 12; $y+= .5 ) {
+                    echo "<option value=".$y.">".$y."</option>";
+                 
+                }
+                ?>
+               
+            </select><br>
 
             <label>Number of Years:</label>
             <input type="text" name="years"
                    value="<?php echo $years; ?>"/><br>
+           
         </div>
-
+ <input type="checkbox" name="monthly" id="check" value="yes">Compound interest monthly<br>
         <div id="buttons">
+
             <label>&nbsp;</label>
             <input type="submit" value="Calculate"/><br>
         </div>

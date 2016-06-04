@@ -6,6 +6,7 @@
             FILTER_VALIDATE_FLOAT);
     $years = filter_input(INPUT_POST, 'years', 
             FILTER_VALIDATE_INT);
+    $monthly = isset($_POST['monthly']);
 
     // validate investment
     if ($investment === FALSE ) {
@@ -35,16 +36,64 @@
         exit();
     }
 
-    // calculate the future value
-    $future_value = $investment;
-    for ($i = 1; $i <= $years; $i++) {
-        $future_value = ($future_value + ($future_value * $interest_rate *.01));
-    }
+// calculate the future value
+$future_value = $investment;
+for ($i = 1; $i <= $years; $i++) {
+$future_value = ($future_value + ($future_value * $interest_rate *.01));
+}
+
+$future_value_m = $investment;
+for ($i = 1; $i <= $years*12; $i++) {
+$future_value_m = ($future_value_m * (1 + ($interest_rate*.01)/12)); 
+}
 
     // apply currency and percent formatting
     $investment_f = '$'.number_format($investment, 2);
     $yearly_rate_f = $interest_rate.'%';
     $future_value_f = '$'.number_format($future_value, 2);
+    $future_value_monthly = '$'.number_format($future_value_m, 2);
+
+//   function to calculate the future value
+function future_value(){
+    global $investment;
+    global $interest_rate;
+    global $years;
+    global $future_value_f;
+    $future_value = $investment;
+    for ($i = 1; $i <= $years; $i++) {
+    $future_value = ($future_value + ($future_value * $interest_rate *.01));
+    }
+    return $future_value_f;
+}
+
+//  function to calculate the future monthly value
+function future_value_m(){
+    global $investment;
+    global $interest_rate;
+    global $years;
+    global $future_value_monthly;
+    $future_value_m = $investment;
+    for ($i = 1; $i <= $years*12; $i++) {
+    $future_value_m = ($future_value_m * (1 + ($interest_rate*.01)/12)); 
+    }
+    return $future_value_monthly;
+}
+
+
+// function to apply currency formatting to a value
+function currency_format(){
+    global $investment;
+    $investment_f = '$'.number_format($investment, 2);
+    return $investment_f;
+}
+
+// function to apply percent formatting to a value
+function percent_format(){
+    global $interest_rate;
+    $yearly_rate_f = $interest_rate.'%';
+    return $yearly_rate_f;
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -57,16 +106,27 @@
         <h1>Future Value Calculator</h1>
 
         <label>Investment Amount:</label>
-        <span><?php echo $investment_f; ?></span><br>
+        <span><?php echo currency_format(); ?></span><br>
 
         <label>Yearly Interest Rate:</label>
-        <span><?php echo $yearly_rate_f; ?></span><br>
+        <span><?php echo percent_format(); ?></span><br>
 
         <label>Number of Years:</label>
         <span><?php echo $years; ?></span><br>
 
         <label>Future Value:</label>
-        <span><?php echo $future_value_f; ?></span><br>
+        <span><?php if(isset($monthly) && $monthly == "yes") {
+              echo future_value_m();
+            } else {
+                echo future_value();
+        } ?></span><br>
+
+        <label>Compound monthly</label>
+        <span><?php if(isset($monthly) && $monthly == "yes") {
+                echo "Yes";
+            } else {
+                echo "No";
+        } ?></span><br>
     </main>
 </body>
 </html>
